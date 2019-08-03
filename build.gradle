@@ -16,7 +16,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.yliu'
-version = 'v1'
+version = ''
 sourceCompatibility = 1.8
 
 repositories {
@@ -42,3 +42,4 @@ task project(){
         paths.forEach(createDir);
     }
 }
+
