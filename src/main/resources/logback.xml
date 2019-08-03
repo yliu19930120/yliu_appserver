@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-	<property name="project" value="yliu_msg_appserver" />
+	<property name="project" value="yliu_appserver" />
 	<property name="path" value="./logs" />
 
 	<appender name="FILE"
