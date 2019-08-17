@@ -1,14 +1,16 @@
 package com.yliu.dao;
 
 import java.util.Date;
-import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 import com.yliu.bean.Msg;
 
 public interface MsgRepository extends MongoRepository<Msg, String>{
-
-	public List<Msg> findByReceiverPhoneAndMsgDateGreaterThanEqual(
-			String receiverPhone,Date from);
+	
+	@Query(value="{'receiverPhone':?#{[0]},'msgDate':{'$gte':?#{[1]},'$lte':?#{[2]}}}")  
+	Page<Msg> findByReceiverPhoneAndMsgDateRange(String receiverPhone, Date from, Date to, Pageable pageable);
 }

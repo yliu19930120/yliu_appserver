@@ -1,10 +1,10 @@
 package com.yliu.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +27,10 @@ public class MessgeController {
 	private MsgService msgService;
 	
 	@PostMapping
-	public Result getMsg(@RequestBody MsgFilter filter){
+	public Result getMsg(@RequestBody MsgFilter filter,Pageable pageable){
 		log.info("查询信息");
-		List<Msg> msgs = msgService.findByReceiverPhoneAndMsgDateGreaterThanEqual(
-				filter.getReceiverPhone(), filter.getFrom());
+		Page<Msg> msgs = msgService.findByReceiverPhoneAndMsgDateGreaterThanEqual(
+				filter.getReceiverPhone(), filter.getFrom(),filter.getTo(),pageable);
 		return Result.ok(msgs);
 	}
 	

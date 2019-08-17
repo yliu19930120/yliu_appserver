@@ -1,9 +1,10 @@
 package com.yliu.service;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.yliu.bean.Msg;
@@ -21,9 +22,9 @@ public class MsgServiceImpl implements MsgService{
 	}
 
 	@Override
-	public List<Msg> findByReceiverPhoneAndMsgDateGreaterThanEqual(String receiverPhone,
-			Date from) {
-		return msgRepository.findByReceiverPhoneAndMsgDateGreaterThanEqual(receiverPhone, from);
+	public Page<Msg> findByReceiverPhoneAndMsgDateGreaterThanEqual(String receiverPhone,
+			Date from, Date to, Pageable pageable) {
+	      return msgRepository.findByReceiverPhoneAndMsgDateRange(receiverPhone, from, to, pageable);
 	}
 
 }
