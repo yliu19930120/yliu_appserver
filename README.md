@@ -12,10 +12,39 @@ ${msg} = {
   }
 ~~~
 
+### 分页Model
+~~~js
+${Page} = {
+	    "content": [{}],//数据内容
+	    "empty": false,//是否为空
+	    "first": true,//是否为第一页
+	    "last": true,//是否为最后一页
+	    "number": 0,//
+	    "numberOfElements": 1,
+	    "pageable": {
+	      "offset": 0,
+	      "pageNumber": 0,
+	      "pageSize": 12,
+	      "paged": true,
+	      "sort": {
+	        "empty": true,
+	        "sorted": false,
+	        "unsorted": true
+	      },
+	      "unpaged": false
+	    },
+	    "size": 12,//分页大小
+	    "sort": {
+	      "$ref": "$.data.pageable.sort"
+	    },
+	    "totalElements": 1,//总记录数
+	    "totalPages": 1 //总页数
+}
+
 ## 消息
 ### 获取消息列表 
 ~~~js
-POST http://39.108.108.237/yliu/msg
+POST http://39.108.108.237/yliu/msg?page={page}&size={size}
 
 request = {
     "receiverPhone":"00000000000",//接收人手机
@@ -25,7 +54,7 @@ request = {
 
 response = {
   "code": 0,
-  "data": [${msg}]
+  "data": [${Page}]
 }
 ~~~
 
