@@ -12,5 +12,5 @@ public interface MsgService {
 	void save(Msg msg);
 	
 	Page<Msg> findByReceiverPhoneAndMsgDateGreaterThanEqual(
-			String receiverPhone, Date from, Date to, Pageable pageable);
+            String receiverPhone, Date from, Date to, Pageable pageable);
 }
