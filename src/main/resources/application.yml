@@ -9,5 +9,5 @@ spring:
 
 yliu:
   auth: true
-  cross: true
+  cross: false
 
