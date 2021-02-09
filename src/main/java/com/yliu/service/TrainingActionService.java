@@ -41,7 +41,7 @@ public class TrainingActionService extends BaseService<TrainingAction,String,Act
 
     private static final Map<String,String> ACTIONS_ALIAS = new HashMap<>();
     static {
-        ACTIONS_ALIAS.put("动作名字","name");
+        ACTIONS_ALIAS.put("动作名字","actionName");
         ACTIONS_ALIAS.put("一级动作分类","typeL1");
         ACTIONS_ALIAS.put("二级动作分类","typeL2");
         ACTIONS_ALIAS.put("重量","weight");

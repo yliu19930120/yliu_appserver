@@ -4,6 +4,7 @@ import com.yliu.bean.PageResult;
 import com.yliu.bean.Result;
 import com.yliu.constant.BaseConst;
 import com.yliu.service.TrainingActionService;
+import com.yliu.utils.IdentityUtils;
 import com.yliu.utils.TokenUtils;
 import com.yliu.vo.ActionVo;
 import io.swagger.annotations.Api;
@@ -36,37 +37,45 @@ public class ActionController {
 
     @ApiOperation(value = "保存动作")
     @PostMapping("/save")
-    public Result save(@Valid ActionVo actionVo,@RequestHeader(BaseConst.TOKEN_KEY) String token){
-        String userId = TokenUtils.decodeToken(token);
-        actionVo.setUserId(userId);
+    public Result save(@Valid @RequestBody ActionVo actionVo){
         trainingActionService.save(actionVo);
         return Result.ok();
     }
 
     @ApiOperation(value = "查询动作")
-    @PostMapping("/action")
-    public Result<List<ActionVo>> actionList(@RequestHeader(BaseConst.TOKEN_KEY) String token,@RequestParam LocalDate traningDate){
+    @GetMapping("/action")
+    public Result<List<ActionVo>> actionList(@RequestParam String userId,@RequestParam LocalDate traningDate){
+        if(userId==null){
+            return Result.failue("用户id为空");
+        }
         ActionVo actionVo = new ActionVo();
-        actionVo.setUserId(TokenUtils.decodeToken(token));
+        actionVo.setUserId(userId);
         actionVo.setTraningDate(traningDate);
         List<ActionVo> all = trainingActionService.findAll(actionVo);
         return Result.ok(all);
     }
 
+    @ApiOperation(value = "删除动作")
+    @GetMapping("/delete")
+    public Result deleteAction(@RequestParam String actionId){
+        trainingActionService.deleteById(actionId);
+        return Result.ok();
+    }
+
+
     @ApiOperation(value = "查询动作,分页")
-    @PostMapping("/page")
+    @GetMapping("/page")
     public PageResult<ActionVo> actionVoPageResult(@PageableDefault(sort = { "traningDate" }, direction = Sort.Direction.DESC) Pageable pageable,
-                                                   @RequestHeader(BaseConst.TOKEN_KEY) String token){
+                                                   @RequestParam String userId){
         ActionVo actionVo = new ActionVo();
-        actionVo.setUserId(TokenUtils.decodeToken(token));
+        actionVo.setUserId(userId);
         PageResult<ActionVo> all = trainingActionService.findAll(actionVo,pageable);
         return all;
     }
 
     @ApiOperation(value = "批量导入")
     @PostMapping("/import")
-    public Result importActions(@RequestParam("file")MultipartFile file,@RequestHeader(BaseConst.TOKEN_KEY) String token){
-        String userId = TokenUtils.decodeToken(token);
+    public Result importActions(@RequestParam("file")MultipartFile file,@RequestParam String userId){
         boolean empty = file.isEmpty();
         if(empty){
             return Result.failue("文件不能为空");

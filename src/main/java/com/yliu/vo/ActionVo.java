@@ -13,7 +13,7 @@ public class ActionVo extends BaseUserVo{
      */
     @ApiModelProperty("动作名字")
     @NotEmpty(message="姓名不能为空！")
-    private String name;
+    private String actionName;
     /**
      * 动作分类
      */
@@ -21,10 +21,9 @@ public class ActionVo extends BaseUserVo{
     @NotEmpty(message="分类不能为空！")
     private String typeL1;
     /**
-     * 动作分类
+     * 动作分类2
      */
     @ApiModelProperty("二级动作分类")
-    @NotEmpty(message="分类不能为空！")
     private String typeL2;
     /**
      * 重量
@@ -64,12 +63,12 @@ public class ActionVo extends BaseUserVo{
     @ApiModelProperty("持续时长(一般是体能动作,单位秒)")
     private Double times;
 
-    public String getName() {
-        return name;
+    public String getActionName() {
+        return actionName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 
     public Double getWeight() {

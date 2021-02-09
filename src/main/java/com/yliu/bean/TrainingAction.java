@@ -8,7 +8,7 @@ public class TrainingAction extends Bean{
     /**
      * 动作名字
      */
-    private String name;
+    private String actionName;
     /**
      * 一级动作分类
      */
@@ -47,12 +47,12 @@ public class TrainingAction extends Bean{
     private Double times;
 
 
-    public String getName() {
-        return name;
+    public String getActionName() {
+        return actionName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 
     public Double getWeight() {
