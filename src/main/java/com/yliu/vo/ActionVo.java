@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @ApiModel("动作")
 public class ActionVo extends BaseUserVo{
 
+    private String id;
     /**
      * 动作名字
      */
@@ -141,5 +142,13 @@ public class ActionVo extends BaseUserVo{
 
     public void setTypeL2(String typeL2) {
         this.typeL2 = typeL2;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

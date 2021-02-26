@@ -30,7 +30,7 @@ public class TrainingAction extends Bean{
      */
     private Integer groupsTimes;
     /**
-     * 是否为单边
+     * 是否为单边0双，1单
      */
     private String unilateral;
     /**

@@ -9,6 +9,11 @@ import com.yliu.vo.ActionVo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +32,9 @@ import java.util.stream.Collectors;
 public class TrainingActionService extends BaseService<TrainingAction,String,ActionVo,TrainingActionDao>{
 
     private final static Logger log = LoggerFactory.getLogger(TrainingActionService.class);
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     private static final Map<String,String> ACTIONS_ALIAS = new HashMap<>();
     static {
@@ -72,5 +81,29 @@ public class TrainingActionService extends BaseService<TrainingAction,String,Act
         });
         save(actionVos);
         excelReader.close();
+    }
+
+    public void deleteByIds(String userId,String ... ids){
+        Query query = Query.query(Criteria.where("userId").is(userId).and("id").in(ids));
+        mongoTemplate.remove(query,TrainingAction.class);
+    }
+
+    public void update(ActionVo actionVo){
+        Query query = Query.query(Criteria.where("id").is(actionVo.getId()));
+
+        Update update = new Update()
+                .set("actionName", actionVo.getActionName())
+                .set("typeL1",actionVo.getTypeL1())
+                .set("typeL2", actionVo.getTypeL2())
+                .set("weight", actionVo.getWeight())
+                .set("nums", actionVo.getNums())
+                .set("groupsTimes", actionVo.getGroupsTimes())
+                .set("unilateral", actionVo.getUnilateral())
+                .set("speed", actionVo.getSpeed())
+                .set("times", actionVo.getTimes())
+                .set("updateDate", LocalDateTime.now())
+                ;
+
+        mongoTemplate.updateFirst(query,update,TrainingAction.class);
     }
 }

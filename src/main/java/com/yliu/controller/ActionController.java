@@ -57,8 +57,15 @@ public class ActionController {
 
     @ApiOperation(value = "删除动作")
     @GetMapping("/delete")
-    public Result deleteAction(@RequestParam String actionId){
-        trainingActionService.deleteById(actionId);
+    public Result deleteAction(@RequestParam String userId,@RequestParam String... actionIds){
+        trainingActionService.deleteByIds(userId,actionIds);
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "更新动作")
+    @PostMapping("/update")
+    public Result update(@Valid @RequestBody ActionVo actionVo){
+        trainingActionService.update(actionVo);
         return Result.ok();
     }
 
