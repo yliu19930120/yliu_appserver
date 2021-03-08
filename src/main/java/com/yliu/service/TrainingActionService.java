@@ -113,7 +113,7 @@ public class TrainingActionService extends BaseService<TrainingAction,String,Act
         Query query = Query.query(Criteria.where("userId")
                 .is(userId)
                 .and("traningDate").gte(from==null?LocalDate.MIN:from)
-                .and("traningDate").lte(to==null?LocalDate.now():to));
+                .lte(to==null?LocalDate.now():to));
 
         return mongoTemplate.findDistinct(query, "traningDate", TrainingAction.class, LocalDate.class);
     }
