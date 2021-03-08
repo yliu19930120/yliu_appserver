@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -57,7 +58,7 @@ public class ActionController {
 
     @ApiOperation(value = "查询训练日期")
     @GetMapping("/dates")
-    public Result<List<LocalDate>> actionDates(@RequestParam String userId,@RequestParam LocalDate from,@RequestParam LocalDate to){
+    public Result<List<LocalDate>> actionDates(@RequestParam String userId, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to){
         if(userId==null){
             return Result.failue("用户id为空");
         }
