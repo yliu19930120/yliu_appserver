@@ -57,7 +57,7 @@ public class ActionController {
 
     @ApiOperation(value = "查询训练日期")
     @GetMapping("/dates")
-    public Result<List<LocalDate>> actionList(@RequestParam String userId,@RequestParam LocalDate from,@RequestParam LocalDate to){
+    public Result<List<LocalDate>> actionDates(@RequestParam String userId,@RequestParam LocalDate from,@RequestParam LocalDate to){
         if(userId==null){
             return Result.failue("用户id为空");
         }
