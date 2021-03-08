@@ -55,6 +55,16 @@ public class ActionController {
         return Result.ok(all);
     }
 
+    @ApiOperation(value = "查询训练日期")
+    @GetMapping("/dates")
+    public Result<List<LocalDate>> actionList(@RequestParam String userId,@RequestParam LocalDate from,@RequestParam LocalDate to){
+        if(userId==null){
+            return Result.failue("用户id为空");
+        }
+        List<LocalDate> dates = trainingActionService.distinctDates(userId,from,to);
+        return Result.ok(dates);
+    }
+
     @ApiOperation(value = "删除动作")
     @GetMapping("/delete")
     public Result deleteAction(@RequestParam String userId,@RequestParam String... actionIds){

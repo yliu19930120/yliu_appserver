@@ -22,10 +22,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,5 +107,14 @@ public class TrainingActionService extends BaseService<TrainingAction,String,Act
                 ;
 
         mongoTemplate.updateFirst(query,update,TrainingAction.class);
+    }
+
+    public List<LocalDate> distinctDates(String userId,LocalDate from,LocalDate to){
+        Query query = Query.query(Criteria.where("userId")
+                .is(userId)
+                .and("traningDate").gte(from==null?LocalDate.MIN:from)
+                .and("traningDate").lte(to==null?LocalDate.now():to));
+
+        return mongoTemplate.findDistinct(query, "traningDate", TrainingAction.class, LocalDate.class);
     }
 }
