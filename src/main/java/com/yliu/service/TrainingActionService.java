@@ -110,10 +110,14 @@ public class TrainingActionService extends BaseService<TrainingAction,String,Act
     }
 
     public List<LocalDate> distinctDates(String userId,LocalDate from,LocalDate to){
-        Query query = Query.query(Criteria.where("userId")
+        Criteria criteria = Criteria.where("userId")
                 .is(userId)
-                .and("traningDate").gte(from==null?LocalDate.MIN:from)
-                .lte(to==null?LocalDate.now():to));
+                .and("traningDate")
+                .lte(to == null ? LocalDate.now() : to);
+            if(from!=null){
+                criteria = criteria.gte(from);
+            }
+        Query query = Query.query(criteria);
 
         return mongoTemplate.findDistinct(query, "traningDate", TrainingAction.class, LocalDate.class);
     }
