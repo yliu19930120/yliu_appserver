@@ -24,10 +24,7 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -119,6 +116,8 @@ public class TrainingActionService extends BaseService<TrainingAction,String,Act
             }
         Query query = Query.query(criteria);
 
-        return mongoTemplate.findDistinct(query, "traningDate", TrainingAction.class, LocalDate.class);
+        List<Object> traningDate = mongoTemplate.query(TrainingAction.class).distinct("traningDate").all();
+
+        return traningDate.stream().map(t->(LocalDate)t).collect(Collectors.toList());
     }
 }
