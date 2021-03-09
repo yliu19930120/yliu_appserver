@@ -1,5 +1,6 @@
 package com.yliu.service;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
@@ -7,6 +8,7 @@ import com.yliu.bean.TrainingAction;
 import com.yliu.dao.TrainingActionDao;
 import com.yliu.vo.ActionVo;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -116,8 +119,8 @@ public class TrainingActionService extends BaseService<TrainingAction,String,Act
             }
         Query query = Query.query(criteria);
 
-        List<Object> traningDate = mongoTemplate.query(TrainingAction.class).distinct("traningDate").all();
+        List<Date> dates = mongoTemplate.findDistinct(query, "traningDate", TrainingAction.class, Date.class);
 
-        return traningDate.stream().map(t->(LocalDate)t).collect(Collectors.toList());
+        return dates.stream().map(date-> date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).collect(Collectors.toList());
     }
 }
