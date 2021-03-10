@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Api(tags = "训练动作")
@@ -53,6 +55,7 @@ public class ActionController {
         actionVo.setUserId(userId);
         actionVo.setTraningDate(traningDate);
         List<ActionVo> all = trainingActionService.findAll(actionVo);
+        Collections.sort(all, Comparator.comparing(ActionVo::getTraningDate).reversed());
         return Result.ok(all);
     }
 
