@@ -6,12 +6,15 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.yliu.bean.TrainingAction;
 import com.yliu.dao.TrainingActionDao;
+import com.yliu.utils.Utils;
 import com.yliu.vo.ActionVo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -123,4 +126,12 @@ public class TrainingActionService extends BaseService<TrainingAction,String,Act
 
         return dates.stream().map(date-> date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).collect(Collectors.toList());
     }
+
+    public List<ActionVo> findAllOrderByUpdatetime(ActionVo queryVo){
+        Example<TrainingAction> example = Example.of(Utils.copy(queryVo,daoClass));
+        List<TrainingAction> actions = repository.findAll(example, Sort.by("updateDate").descending());
+
+        return actions.stream().map(t->Utils.copy(t,voClass)).collect(Collectors.toList());
+    }
+
 }

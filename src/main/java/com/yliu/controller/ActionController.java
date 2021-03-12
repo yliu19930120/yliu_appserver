@@ -54,8 +54,7 @@ public class ActionController {
         ActionVo actionVo = new ActionVo();
         actionVo.setUserId(userId);
         actionVo.setTraningDate(traningDate);
-        List<ActionVo> all = trainingActionService.findAll(actionVo);
-        Collections.sort(all, Comparator.comparing(ActionVo::getTraningDate).reversed());
+        List<ActionVo> all = trainingActionService.findAllOrderByUpdatetime(actionVo);
         return Result.ok(all);
     }
 
